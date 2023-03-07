@@ -1,0 +1,190 @@
+//极米投影
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="极米投影仪客户端";right=690;bottom=350;bgcolor=16777215;border="none";max=false)
+winform.add(
+bkplus={cls="bkplus";left=0;top=-2;right=693;bottom=27;bgcolor=12632256;forecolor=16777215;linearGradient=180;z=1};
+btnDiscover={cls="plus";text="发现极米投影仪";left=487;top=45;right=657;bottom=75;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF002';notify=1;textPadding={left=39};z=4};
+btnGame={cls="plus";text="游戏模式";left=37;top=101;right=168;bottom=131;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-15;name='FontAwesome');padding={left=17;bottom=2}};iconText='\uF11B';notify=1;textPadding={left=39};z=5};
+btnHdmiIn={cls="plus";text="切换到 HDMI 信号源";left=130;top=191;right=318;bottom=221;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF0FD';textPadding={left=39};z=13};
+btnHdmiOut={cls="plus";text="退出 HDMI 信号源";left=331;top=191;right=533;bottom=221;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF0E2';notify=1;textPadding={left=39};z=14};
+btnKeystoneCorrection={cls="plus";text="自动梯形较正";left=84;top=148;right=233;bottom=178;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF125';notify=1;textPadding={left=39};z=8};
+btnOffice={cls="plus";text="办公模式";left=327;top=101;right=458;bottom=131;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF03E';textPadding={left=39};z=7};
+btnSearch={cls="plus";text="执行语音指令";left=487;top=288;right=657;bottom=318;align="left";bgcolor=-5197169;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF130';textPadding={left=39};z=10};
+btnShutdown={cls="plus";text="关机";left=380;top=148;right=476;bottom=178;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF04D';notify=1;textPadding={left=39};z=15};
+btnSwitchToExternalDisplay={cls="plus";text="切换到外部显示器  Ctrl+Alt+E";left=363;top=236;right=600;bottom=266;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF0FD';notify=1;textPadding={left=39};z=17};
+btnSwitchToInternalDisplay={cls="plus";text="切换到主显示器  Ctrl+Alt+I";left=130;top=236;right=355;bottom=266;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF0FD';notify=1;textPadding={left=39};z=16};
+btnTurnOffScreen={cls="plus";text="关闭屏幕";left=247;top=148;right=367;bottom=178;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF05E';textPadding={left=39};z=9};
+btnTurnOnScreen={cls="plus";text="开机 / 打开屏幕";left=490;top=148;right=657;bottom=178;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF108';textPadding={left=39};z=12};
+btnVideo={cls="plus";text="观影模式";left=182;top=101;right=313;bottom=131;align="left";bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF108';notify=1;textPadding={left=39};z=6};
+edit={cls="plus";left=153;top=290;right=472;bottom=316;align="right";border={bottom=1;color=-6908266};db=1;dl=1;dr=1;editable=1;font=LOGFONT(h=-13);textPadding={top=6;bottom=2};z=11};
+editIp={cls="ipaddress";text="0.0.0.0";left=220;top=47;right=472;bottom=75;dl=1;dt=1;edge=1;transparent=1;z=3};
+lbFriendlyName={cls="plus";left=66;top=2;right=610;bottom=25;dl=1;dt=1;transparent=1;z=2}
+)
+/*}}*/
+
+import wsock.udp.xgimiClient;
+winform.btnDiscover.oncommand = function(id,event){
+
+	wsock.udp.xgimiClient.enumDevice(
+		function(ip,name){
+			winform.lbFriendlyName.text = name;
+			winform.editIp.text = ip;
+		}
+	)	
+}
+winform.btnDiscover.oncommand();
+	
+winform.btnGame.oncommand = function(id,event){
+	
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.setting();
+	xgimiClient.pressDown(4); 
+		xgimiClient.pressRight(); 
+		xgimiClient.pressDown();
+		xgimiClient.pressOk(2000);
+		xgimiClient.pressOk(2000);
+		xgimiClient.pressBack();
+		xgimiClient.close();
+}
+
+winform.btnVideo.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.setting();
+	xgimiClient.pressDown(4); 
+		xgimiClient.pressRight(); 
+		xgimiClient.pressOk(2000);
+		xgimiClient.pressBack();
+		xgimiClient.close();	
+}
+
+winform.btnOffice.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.setting();
+	xgimiClient.pressDown(4); 
+		xgimiClient.pressRight(); 
+		xgimiClient.pressDown(2);
+		xgimiClient.pressOk(2000);
+		xgimiClient.pressBack();
+		xgimiClient.close();		
+}
+
+winform.btnKeystoneCorrection.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search("自动梯形较正");
+	xgimiClient.close();
+}
+
+winform.btnTurnOffScreen.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search("关闭屏幕");
+	xgimiClient.close();	
+}
+
+winform.btnSearch.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search(winform.edit.text);
+	xgimiClient.close();		
+}
+
+winform.btnTurnOnScreen.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search("开机");
+	xgimiClient.close();	
+}
+
+winform.btnHdmiIn.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search("切换到 HDMI 信号源");
+	xgimiClient.close();		
+}
+
+winform.btnHdmiOut.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search("退出信号源");
+	xgimiClient.close();	
+}
+
+winform.btnShutdown.oncommand = function(id,event){
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.shutdown();
+	xgimiClient.close();	
+}
+
+style = {
+	button = {
+		background={
+			default=0x668FB2B0;
+			disabled=0xFFCCCCCC;
+			hover=0xFF928BB3
+		};
+		color={
+			default=0xFF000000;
+			disabled=0xFF6D6D6D
+		}
+	}
+}
+
+import sys.dpi
+import sys.displaySwitch;
+import dotNet.audioDevice;
+winform.btnSwitchToInternalDisplay.oncommand = function(id,event){
+	sys.displaySwitch.internal();
+	winform.btnHdmiOut.oncommand();
+	
+	sys.dpi.scaling(false);
+	thread.delay(2000);
+	
+	import dotNet.audioDevice;
+	for( mmDevice,devId,devName in dotNet.audioDevice.each() ){ 
+		if(!string.find(devName,"XGIMI") ){
+			dotNet.audioDevice.setDefault(devId);
+		}
+	}
+}
+winform.reghotkey( function(id,mod,vk){
+	winform.btnSwitchToInternalDisplay.oncommand()
+},2/*_MOD_CONTROL*/|1/*_MOD_ALT*/,'I'#)
+
+
+winform.btnSwitchToExternalDisplay.oncommand = function(id,event){
+	sys.displaySwitch.external();
+	winform.btnHdmiIn.oncommand();
+	
+	sys.dpi.scaling(100);
+	thread.delay(2000);
+	
+	var xgimiClient = wsock.udp.xgimiClient(winform.editIp.text)
+	xgimiClient.search("自动对焦");
+	xgimiClient.close();
+	
+	for( mmDevice,devId,devName in dotNet.audioDevice.each() ){ 
+		if(string.find(devName,"XGIMI") ){
+			dotNet.audioDevice.setDefault(devId);
+		}
+	}
+}
+winform.reghotkey( function(id,mod,vk){
+	winform.btnSwitchToExternalDisplay.oncommand()
+},2/*_MOD_CONTROL*/|1/*_MOD_ALT*/,'E'#)
+
+winform.btnShutdown.skin(style.button);
+winform.btnDiscover.skin(style.button);
+winform.btnSearch.skin(style.button);
+winform.btnHdmiOut.skin(style.button);
+winform.btnHdmiIn.skin(style.button);
+winform.btnTurnOnScreen.skin(style.button);
+winform.btnTurnOffScreen.skin(style.button);
+winform.btnKeystoneCorrection.skin(style.button);
+winform.btnOffice.skin(style.button);
+winform.btnVideo.skin(style.button);
+winform.btnGame.skin(style.button);
+winform.btnSwitchToInternalDisplay.skin(style.button);
+winform.btnSwitchToExternalDisplay.skin(style.button);
+
+import win.ui.simpleWindow2;
+win.ui.simpleWindow2(winform);
+
+winform.show(); 
+win.loopMessage();

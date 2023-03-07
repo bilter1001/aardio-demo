@@ -1,0 +1,17 @@
+//启动参数 / 代理
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="WebView2 - 设置启动参数";right=966;bottom=622)
+winform.add()
+/*}}*/
+
+import web.view;
+
+//参数@3 可指定 Chromium 启动参数， 多个参数以空格分开
+var wb = web.view(winform,,"--proxy-server=SOCKS5://IP地址:端口  --accept-lang=zh-CN");
+
+//Chromium 启动参数请参考以下链接：
+wb.go("https://peter.sh/experiments/chromium-command-line-switches/");
+
+winform.show(3/*_SW_MAXIMIZE*/);
+win.loopMessage();
