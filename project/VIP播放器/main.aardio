@@ -1,8 +1,72 @@
 import win.ui;
+import web.view;
+//import web.form;
+import console;
+console.open();
 /*DSG{{*/
 mainForm = win.form(text="VIP播放器";right=757;bottom=467)
-mainForm.add()
+mainForm.add(
+btnOpen={cls="button";text="打开";left=340;top=16;right=412;bottom=56;dl=1;dt=1;z=2};
+btnVIP={cls="button";text="解析";left=644;top=16;right=716;bottom=56;dl=1;dt=1;z=3};
+combobox={cls="combobox";left=460;top=20;right=624;bottom=46;dl=1;dt=1;edge=1;items={};mode="dropdown";z=4};
+custom={cls="custom";text="自定义控件";left=8;top=64;right=748;bottom=464;ah=1;aw=1;bgcolor=12632256;db=1;dl=1;dr=1;dt=1;z=5};
+editUrl={cls="edit";left=8;top=20;right=312;bottom=48;dl=1;dt=1;edge=1;z=1}
+)
 /*}}*/
+
+var wb = web.view(mainForm.custom);
+//var wb = web.form(mainForm.custom);
+
+/*
+添加网页默认加载的 JavaScript （ 在 window.onload 事件触发之前执行 ）。
+*/
+wb.preloadScript(`
+//禁止超链接默认开新窗口
+window.addEventListener('load',function(){ 
+	let base = document.querySelector('base'); 
+	if (base) base.removeAttribute('target');	
+})
+
+//禁止超链接开新窗口
+document.addEventListener('mousedown', function (event) {
+  var target = event.target;
+  for(var i=1;target && i<=5;i++){
+  	if ( target.tagName == 'A')  {
+  		target.removeAttribute('target');
+  		return;
+  	}
+  	
+  	target = target.parentNode; 
+  } 
+}, true);
+
+var links = document.getElementsByTagName("a");
+for (var i = 0; i < links.length; i++) {
+  links[i].addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = this.getAttribute("href");
+  });
+}
+
+//禁止弹窗函数
+window.open =  function(url){ window.location.href = url; } 
+`)
+
+
+
+mainForm.btnOpen.oncommand = function(id,event){
+	var url = mainForm.editUrl.text;
+	
+	var  isHttpStr = string.startWith(url,"http")||string.startWith(url,"https");
+	if(!isHttpStr){
+		url = "http://" + url;
+	}
+	
+	console.print(url);
+	wb.go(url);
+}
+
+
 
 mainForm.show();
 return win.loopMessage();
