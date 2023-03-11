@@ -1,4 +1,0 @@
-LIBRARY argsPointer.dll
-
-EXPORTS
-getArgsPointer
