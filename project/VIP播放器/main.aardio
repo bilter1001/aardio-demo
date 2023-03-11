@@ -1,18 +1,30 @@
 import win.ui;
 import web.view;
+import fsys.ini;
 //import web.form;
 import console;
 console.open();
 /*DSG{{*/
-mainForm = win.form(text="VIP播放器";right=757;bottom=467)
+mainForm = win.form(text="VIP播放器";right=917;bottom=521)
 mainForm.add(
+btnLocation={cls="button";text="获取web的地址";left=771;top=25;right=885;bottom=51;z=6};
 btnOpen={cls="button";text="打开";left=340;top=16;right=412;bottom=56;dl=1;dt=1;z=2};
 btnVIP={cls="button";text="解析";left=644;top=16;right=716;bottom=56;dl=1;dt=1;z=3};
-combobox={cls="combobox";left=460;top=20;right=624;bottom=46;dl=1;dt=1;edge=1;items={};mode="dropdown";z=4};
-custom={cls="custom";text="自定义控件";left=8;top=64;right=748;bottom=464;ah=1;aw=1;bgcolor=12632256;db=1;dl=1;dr=1;dt=1;z=5};
+cbbApi={cls="combobox";left=460;top=20;right=624;bottom=46;dl=1;dt=1;edge=1;items={};mode="dropdownlist";z=4};
+custom={cls="custom";text="自定义控件";left=8;top=64;right=910;bottom=516;ah=1;aw=1;bgcolor=12632256;db=1;dl=1;dr=1;dt=1;z=5};
 editUrl={cls="edit";left=8;top=20;right=312;bottom=48;dl=1;dt=1;edge=1;z=1}
 )
 /*}}*/
+
+var ini=fsys.ini("\配置文件.ini")
+
+
+var listKey = ini.readKeys("解析接口")
+for(i=1;#listKey;1){
+	mainForm.cbbApi.add(listKey[i]);
+	console.print(listKey[i]);
+}
+
 
 var wb = web.view(mainForm.custom);
 //var wb = web.form(mainForm.custom);
@@ -48,6 +60,15 @@ for (var i = 0; i < links.length; i++) {
   });
 }
 
+// 阻止特定链接的新窗口弹出
+document.querySelectorAll('a[href]').forEach(function(link) {
+  link.addEventListener('click', function(event) {
+    if (this.target === '_blank') {
+      event.preventDefault();
+    }
+  });
+});
+
 //禁止弹窗函数
 window.open =  function(url){ window.location.href = url; } 
 `)
@@ -65,8 +86,28 @@ mainForm.btnOpen.oncommand = function(id,event){
 	console.print(url);
 	wb.go(url);
 }
+mainForm.editUrl.text = ini.read("默认值","网址");
+mainForm.cbbApi.selText = ini.read("默认值","接口")
 
+mainForm.btnVIP.oncommand = function(id,event){
+	var jxApi = ini.read("解析接口",mainForm.cbbApi.selText);
+	var videoUrl = wb.location; 
+	if(videoUrl == null){
+		videoUrl = mainForm.editUrl.text;
+	}
+	console.print("location:"+videoUrl);
+	wb.go(jxApi++videoUrl);
+	console.print(jxApi++wb.location);
+	ini.write("默认值","网址",wb.location);
+	ini.write("默认值","接口",mainForm.cbbApi.selText);
+	
+}
 
+mainForm.btnLocation.oncommand = function(id,event){
+	if(wb.location != null){
+		mainForm.msgbox(wb.location);
+	}
+}
 
 mainForm.show();
 return win.loopMessage();
